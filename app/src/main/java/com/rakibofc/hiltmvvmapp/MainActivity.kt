@@ -27,9 +27,7 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
-class SomeClass @Inject constructor(
-    private val someOtherClass: SomeOtherClass
-) {
+class SomeClass @Inject constructor() : SomeOtherClass() {
 
     fun doAThing(): String {
         return "Look I did a thing in doAThing method in SomeClass class"
@@ -38,17 +36,9 @@ class SomeClass @Inject constructor(
     fun sum(a: Int, b: Int): Int {
         return a + b
     }
-
-    fun doSomeOtherThing(): String {
-        return someOtherClass.doSomeOtherThing()
-    }
-
-    fun multiply(a: Int, b: Int): Int {
-        return someOtherClass.multiply(a, b)
-    }
 }
 
-class SomeOtherClass @Inject constructor() {
+open class SomeOtherClass @Inject constructor() {
 
     fun doSomeOtherThing(): String {
         return "Look I did a thing in doSomeOtherThing method in SomeOtherClass class"
