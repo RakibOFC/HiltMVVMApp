@@ -3,13 +3,16 @@ package com.rakibofc.hiltmvvmapp
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.internal.managers.ApplicationComponentManager
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 import javax.inject.Named
+import javax.inject.Singleton
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -20,25 +23,26 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var exampleClass2: ExampleClass2
 
-    //@Inject
-    //lateinit var exampleClass4: ExampleClass4
+    @Inject
+    lateinit var exampleClass4: ExampleClass4
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
-        Log.e("TAG", "exampleClass1 - doAThing: ${exampleClass1.doAThing()}")
+        /*Log.e("TAG", "exampleClass1 - doAThing: ${exampleClass1.doAThing()}")
         Log.e("TAG", "exampleClass1 - sum: ${exampleClass1.sum()}")
         Log.e(
             "TAG",
             "exampleClass2 - exampleMethod2 with exampleMethod3: ${exampleClass2.exampleMethod2()}"
-        )
+        )*/
 
-        //Log.e("TAG", "exampleClass4 - exampleMethod4: ${exampleClass4.exampleMethod4()}")
+        Log.e("TAG", "exampleClass4 - exampleMethod4: ${exampleClass4.exampleMethod4()}")
     }
 }
 
+/* --------------------------------------------------------------------------------- */
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -70,6 +74,7 @@ class ExampleClass1 @Inject constructor(
     }
 }
 
+/* --------------------------------------------------------------------------------- */
 class ExampleClass2 @Inject constructor(
     private val exampleClass3: ExampleClass3
 ) {
@@ -85,6 +90,7 @@ class ExampleClass3 @Inject constructor() {
     }
 }
 
+/* --------------------------------------------------------------------------------- */
 // This section will create compile time error
 class ExampleClass4 @Inject constructor(
     private val exampleInterface1: ExampleInterface1
@@ -105,3 +111,13 @@ constructor() : ExampleInterface1 {
 interface ExampleInterface1 {
     fun interfaceMethod1(): String
 }
+
+@InstallIn(SingletonComponent::class) /* @InstallIn(ActivityComponent::class) */
+@Module
+abstract class ExampleModule {
+
+    @Singleton /* @ActivityScoped */
+    @Binds
+    abstract fun bindExampleInterface1(impl: ExampleInterface2Impl): ExampleInterface1
+}
+/* --------------------------------------------------------------------------------- */
