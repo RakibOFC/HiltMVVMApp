@@ -26,6 +26,9 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var exampleClass4: ExampleClass4
 
+    @Inject
+    lateinit var exampleClass5: ExampleClass5
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,9 +39,13 @@ class MainActivity : AppCompatActivity() {
         Log.e(
             "TAG",
             "exampleClass2 - exampleMethod2 with exampleMethod3: ${exampleClass2.exampleMethod2()}"
-        )*/
-
+        )
         Log.e("TAG", "exampleClass4 - exampleMethod4: ${exampleClass4.exampleMethod4()}")
+        */
+
+        Log.e("TAG", "exampleClass5 - exampleMethod5: ${exampleClass5.exampleMethod5()}")
+        Log.e("TAG", "exampleClass5 - exampleMethod6: ${exampleClass5.exampleMethod6()}")
+
     }
 }
 
@@ -143,3 +150,52 @@ class ExampleModule2 {
     }
 }
 /* --------------------------------------------------------------------------------- */
+/* Providing Instances of the Same Type with HILT */
+
+class ExampleClass5 @Inject constructor(
+    private val exampleInterface: ExampleInterface
+) {
+
+    fun exampleMethod5(): String {
+        return "ExampleMethod5 in ExampleClass5 : ${exampleInterface.interfaceMethod()}"
+    }
+
+    fun exampleMethod6(): String {
+        return "ExampleMethod6 in ExampleClass5 : ${exampleInterface.interfaceMethod()}"
+    }
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+class ExampleModule {
+
+    @Singleton
+    @Provides
+    // @Named("interface1")
+    fun provideExampleInterface1(): ExampleInterface {
+        return ExampleInterfaceImpl1()
+    }
+
+    /*@Singleton
+    @Provides
+    @Named("interface2")
+    fun provideExampleInterface2(): ExampleInterface {
+        return ExampleInterfaceImpl2()
+    }*/
+}
+
+class ExampleInterfaceImpl1 @Inject constructor() : ExampleInterface {
+    override fun interfaceMethod(): String {
+        return "ExampleInterfaceImpl1"
+    }
+}
+
+class ExampleInterfaceImpl2 @Inject constructor() : ExampleInterface {
+    override fun interfaceMethod(): String {
+        return "ExampleInterfaceImpl2"
+    }
+}
+
+interface ExampleInterface {
+    fun interfaceMethod(): String
+}
