@@ -100,11 +100,13 @@ class ExampleClass4 @Inject constructor(
     }
 }
 
-class ExampleInterface2Impl
+class ExampleInterface1Impl
 @Inject
-constructor() : ExampleInterface1 {
+constructor(
+    private val exampleModule2Method: String
+) : ExampleInterface1 {
     override fun interfaceMethod1(): String {
-        return "ExampleInterface2Impl"
+        return "ExampleInterface2Impl: $exampleModule2Method"
     }
 }
 
@@ -112,12 +114,32 @@ interface ExampleInterface1 {
     fun interfaceMethod1(): String
 }
 
-@InstallIn(SingletonComponent::class) /* @InstallIn(ActivityComponent::class) */
-@Module
-abstract class ExampleModule {
+/* ------- Binds or Provides: Binds ------- */
+/*@Module
+@InstallIn(SingletonComponent::class)
+*//* @InstallIn(ActivityComponent::class) *//*
+abstract class ExampleModule1 {
 
-    @Singleton /* @ActivityScoped */
+    @Singleton
+    *//* @ActivityScoped *//*
     @Binds
-    abstract fun bindExampleInterface1(impl: ExampleInterface2Impl): ExampleInterface1
+    abstract fun bindExampleInterface1(impl: ExampleInterface1Impl): ExampleInterface1
+}*/
+/* ------ Binds or Provides: Provides ------ */
+@Module
+@InstallIn(SingletonComponent::class)
+class ExampleModule2 {
+
+    @Provides
+    @Singleton
+    fun provideExampleInterface1(): ExampleInterface1 {
+        return ExampleInterface1Impl(exampleModule2Method())
+    }
+
+    @Provides
+    @Singleton
+    fun exampleModule2Method(): String {
+        return "exampleModule2Method"
+    }
 }
 /* --------------------------------------------------------------------------------- */
