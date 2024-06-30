@@ -2,10 +2,7 @@ package com.rakibofc.hiltmvvmapp
 
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -18,15 +15,19 @@ import javax.inject.Named
 class MainActivity : AppCompatActivity() {
 
     @Inject
-    lateinit var someClass: SomeClass
+    lateinit var exampleClass1: ExampleClass1
+
+    @Inject
+    lateinit var exampleClass2: ExampleClass2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
-        Log.e("TAG", "onCreate: ${someClass.doAThing()}")
-        Log.e("TAG", "onCreate - Sum: ${someClass.sum()}")
+        Log.e("TAG", "exampleClass1 - doAThing: ${exampleClass1.doAThing()}")
+        Log.e("TAG", "exampleClass1 - sum: ${exampleClass1.sum()}")
+        Log.e("TAG", "exampleClass2 - exampleMethod2 with exampleMethod3: ${exampleClass2.exampleMethod2()}")
     }
 }
 
@@ -43,19 +44,35 @@ object AppModule {
     fun provideB(): Int = 2
 
     @Provides
-    fun provideSomeClass(@Named("A") a: Int, @Named("B") b: Int): SomeClass = SomeClass(a, b)
+    fun provideSomeClass(@Named("A") a: Int, @Named("B") b: Int): ExampleClass1 =
+        ExampleClass1(a, b)
 }
 
-class SomeClass @Inject constructor(
+class ExampleClass1 @Inject constructor(
     private val a: Int,
     private val b: Int
 ) {
 
     fun doAThing(): String {
-        return "Look I did a thing in doAThing method in SomeClass class"
+        return "Look I did a thing in doAThing method in ExampleClass1"
     }
 
     fun sum(): Int {
         return a + b
+    }
+}
+
+class ExampleClass2 @Inject constructor(
+    private val exampleClass3: ExampleClass3
+) {
+    fun exampleMethod2(): String {
+        return "ExampleMethod2 in ExampleClass2 : ${exampleClass3.exampleMethod3()}"
+    }
+}
+
+class ExampleClass3 @Inject constructor() {
+
+    fun exampleMethod3(): String {
+        return "ExampleMethod3 in ExampleClass3"
     }
 }
