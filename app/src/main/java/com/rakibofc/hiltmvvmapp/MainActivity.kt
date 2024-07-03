@@ -18,6 +18,10 @@ import javax.inject.Singleton
 class MainActivity : AppCompatActivity() {
 
     @Inject
+    lateinit var someClass: SomeClass
+
+    /*
+    @Inject
     lateinit var exampleClass1: ExampleClass1
 
     @Inject
@@ -28,6 +32,9 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var exampleClass5: ExampleClass5
+    */
+
+    /* Providing Instances of the Same Type with HILT */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,15 +48,75 @@ class MainActivity : AppCompatActivity() {
             "exampleClass2 - exampleMethod2 with exampleMethod3: ${exampleClass2.exampleMethod2()}"
         )
         Log.e("TAG", "exampleClass4 - exampleMethod4: ${exampleClass4.exampleMethod4()}")
-        */
 
         Log.e("TAG", "exampleClass5 - exampleMethod5: ${exampleClass5.exampleMethod5()}")
         Log.e("TAG", "exampleClass5 - exampleMethod6: ${exampleClass5.exampleMethod6()}")
+        */
+
+        /* Providing Instances of the Same Type with HILT */
+        Log.e("TAG", "onCreate: ${someClass.doAThing1()}")
+        Log.e("TAG", "onCreate: ${someClass.doAThing2()}")
 
     }
 }
 
 /* --------------------------------------------------------------------------------- */
+/* START: Providing Instances of the Same Type with HILT (Named Annotation) */
+/* --------------------------------------------------------------------------------- */
+
+class SomeClass @Inject constructor(
+    @Named("Impl1") private val someInterface1: SomeInterface,
+    @Named("Impl2") private val someInterface2: SomeInterface
+) {
+
+    fun doAThing1(): String {
+        return "doAThing1: ${someInterface1.getAThink()}"
+    }
+
+    fun doAThing2(): String {
+        return "doAThing2: ${someInterface2.getAThink()}"
+    }
+}
+
+@Module
+@InstallIn(SingletonComponent::class)
+class MyModule {
+
+    @Singleton
+    @Provides
+    @Named("Impl1")
+    fun provideSomeInterface1(): SomeInterface {
+        return SomeInterfaceImpl1()
+    }
+
+    @Singleton
+    @Provides
+    @Named("Impl2")
+    fun provideSomeInterface2(): SomeInterface {
+        return SomeInterfaceImpl2()
+    }
+}
+
+class SomeInterfaceImpl1 @Inject constructor() : SomeInterface {
+    override fun getAThink(): String {
+        return "getAThink in SomeInterfaceImpl1"
+    }
+}
+
+class SomeInterfaceImpl2 @Inject constructor() : SomeInterface {
+    override fun getAThink(): String {
+        return "getAThink in SomeInterfaceImpl2"
+    }
+}
+
+interface SomeInterface {
+    fun getAThink(): String
+}
+
+/* --------------------------------------------------------------------------------- */
+/* END: Providing Instances of the Same Type with HILT (Named Annotation) */
+/* --------------------------------------------------------------------------------- */
+/*
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
@@ -81,7 +148,9 @@ class ExampleClass1 @Inject constructor(
     }
 }
 
-/* --------------------------------------------------------------------------------- */
+*/
+/* --------------------------------------------------------------------------------- *//*
+
 class ExampleClass2 @Inject constructor(
     private val exampleClass3: ExampleClass3
 ) {
@@ -97,7 +166,9 @@ class ExampleClass3 @Inject constructor() {
     }
 }
 
-/* --------------------------------------------------------------------------------- */
+*/
+/* --------------------------------------------------------------------------------- *//*
+
 // This section will create compile time error
 class ExampleClass4 @Inject constructor(
     private val exampleInterface1: ExampleInterface1
@@ -121,18 +192,32 @@ interface ExampleInterface1 {
     fun interfaceMethod1(): String
 }
 
-/* ------- Binds or Provides: Binds ------- */
+*/
+/* ------- Binds or Provides: Binds ------- *//*
+
+*/
 /*@Module
 @InstallIn(SingletonComponent::class)
-*//* @InstallIn(ActivityComponent::class) *//*
+*//*
+*/
+/* @InstallIn(ActivityComponent::class) *//*
+*/
+/*
 abstract class ExampleModule1 {
 
     @Singleton
-    *//* @ActivityScoped *//*
+    *//*
+*/
+/* @ActivityScoped *//*
+*/
+/*
     @Binds
     abstract fun bindExampleInterface1(impl: ExampleInterface1Impl): ExampleInterface1
-}*/
-/* ------ Binds or Provides: Provides ------ */
+}*//*
+
+*/
+/* ------ Binds or Provides: Provides ------ *//*
+
 @Module
 @InstallIn(SingletonComponent::class)
 class ExampleModule2 {
@@ -149,8 +234,12 @@ class ExampleModule2 {
         return "exampleModule2Method"
     }
 }
-/* --------------------------------------------------------------------------------- */
-/* Providing Instances of the Same Type with HILT */
+*/
+/* --------------------------------------------------------------------------------- *//*
+
+*/
+/* Providing Instances of the Same Type with HILT 2*//*
+
 
 class ExampleClass5 @Inject constructor(
     private val exampleInterface: ExampleInterface
@@ -176,12 +265,14 @@ class ExampleModule {
         return ExampleInterfaceImpl1()
     }
 
-    /*@Singleton
+    */
+/*@Singleton
     @Provides
     @Named("interface2")
     fun provideExampleInterface2(): ExampleInterface {
         return ExampleInterfaceImpl2()
-    }*/
+    }*//*
+
 }
 
 class ExampleInterfaceImpl1 @Inject constructor() : ExampleInterface {
@@ -198,4 +289,4 @@ class ExampleInterfaceImpl2 @Inject constructor() : ExampleInterface {
 
 interface ExampleInterface {
     fun interfaceMethod(): String
-}
+}*/
