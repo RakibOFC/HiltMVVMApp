@@ -12,6 +12,7 @@ import dagger.hilt.android.internal.managers.ApplicationComponentManager
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Inject
 import javax.inject.Named
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @AndroidEntryPoint
@@ -61,8 +62,73 @@ class MainActivity : AppCompatActivity() {
 }
 
 /* --------------------------------------------------------------------------------- */
-/* START: Providing Instances of the Same Type with HILT (Named Annotation) */
+/* START: Providing Instances of the Same Type with HILT (Custom Annotation) */
 /* --------------------------------------------------------------------------------- */
+
+class SomeClass @Inject constructor(
+    @Impl1 private val someInterface1: SomeInterface,
+    @Impl2 private val someInterface2: SomeInterface
+) {
+
+    fun doAThing1(): String {
+        return "doAThing1: ${someInterface1.getAThink()}"
+    }
+
+    fun doAThing2(): String {
+        return "doAThing2: ${someInterface2.getAThink()}"
+    }
+}
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class Impl1
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class Impl2
+
+@Module
+@InstallIn(SingletonComponent::class)
+class MyModule {
+
+    @Singleton
+    @Provides
+    @Impl1
+    fun provideSomeInterface1(): SomeInterface {
+        return SomeInterfaceImpl1()
+    }
+
+    @Singleton
+    @Provides
+    @Impl2
+    fun provideSomeInterface2(): SomeInterface {
+        return SomeInterfaceImpl2()
+    }
+}
+
+class SomeInterfaceImpl1 @Inject constructor() : SomeInterface {
+    override fun getAThink(): String {
+        return "getAThink in SomeInterfaceImpl1"
+    }
+}
+
+class SomeInterfaceImpl2 @Inject constructor() : SomeInterface {
+    override fun getAThink(): String {
+        return "getAThink in SomeInterfaceImpl2"
+    }
+}
+
+interface SomeInterface {
+    fun getAThink(): String
+}
+
+/* --------------------------------------------------------------------------------- */
+/* END: Providing Instances of the Same Type with HILT (Custom Annotation) */
+/* --------------------------------------------------------------------------------- */
+
+/* --------------------------------------------------------------------------------- *//* // Un-comment start
+*//* START: Providing Instances of the Same Type with HILT (Named Annotation) *//*
+*//* --------------------------------------------------------------------------------- *//*
 
 class SomeClass @Inject constructor(
     @Named("Impl1") private val someInterface1: SomeInterface,
@@ -113,9 +179,9 @@ interface SomeInterface {
     fun getAThink(): String
 }
 
-/* --------------------------------------------------------------------------------- */
-/* END: Providing Instances of the Same Type with HILT (Named Annotation) */
-/* --------------------------------------------------------------------------------- */
+*//* --------------------------------------------------------------------------------- *//*
+*//* END: Providing Instances of the Same Type with HILT (Named Annotation) *//*
+*//* --------------------------------------------------------------------------------- */ // Un-comment end
 /*
 @Module
 @InstallIn(SingletonComponent::class)
