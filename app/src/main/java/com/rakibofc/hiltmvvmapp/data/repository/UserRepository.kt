@@ -2,7 +2,6 @@ package com.rakibofc.hiltmvvmapp.data.repository
 
 import com.rakibofc.hiltmvvmapp.data.local.UserDao
 import com.rakibofc.hiltmvvmapp.data.local.UserEntity
-import com.rakibofc.hiltmvvmapp.data.remote.ApiService
 import com.rakibofc.hiltmvvmapp.data.remote.UserRemoteDataSource
 import com.rakibofc.hiltmvvmapp.domain.model.User
 import com.rakibofc.hiltmvvmapp.domain.repository.IUserRepository
@@ -23,10 +22,17 @@ class UserRepository @Inject constructor(
                 users.add(User(it.id, it.name, it.studentGender))
             }
             userDao.insertAll(users.map { it.toEntity() })
-            Resource.Success(users)
+
+            val localUsers = userDao.getAllUsers()
+            val localUsersList = mutableListOf<User>()
+            localUsers.forEach {
+                localUsersList.add(User(it.id, it.name, it.gender))
+            }
+
+            Resource.Success(localUsersList)
 
         } catch (exception: Exception) {
-            Resource.Error("An error occurred")
+            Resource.Error("Error: ${exception.message}")
         }
     }
 
