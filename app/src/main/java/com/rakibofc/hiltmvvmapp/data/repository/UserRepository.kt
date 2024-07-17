@@ -29,7 +29,6 @@ class UserRepository @Inject constructor(
             localUsers.forEach {
                 localUsersList.add(User(it.id, it.name, it.email, it.avatar))
             }
-
             Resource.Success(localUsersList)
 
         } catch (exception: Exception) {
