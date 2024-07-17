@@ -1,11 +1,13 @@
 package com.rakibofc.hiltmvvmapp.data.repository
 
+import android.util.Log
 import com.rakibofc.hiltmvvmapp.data.local.UserDao
 import com.rakibofc.hiltmvvmapp.data.local.UserEntity
 import com.rakibofc.hiltmvvmapp.data.remote.UserRemoteDataSource
 import com.rakibofc.hiltmvvmapp.domain.model.User
 import com.rakibofc.hiltmvvmapp.domain.repository.IUserRepository
 import com.rakibofc.hiltmvvmapp.presentation.util.Resource
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
@@ -16,6 +18,8 @@ class UserRepository @Inject constructor(
     override suspend fun getUsers(): Resource<List<User>> {
         return try {
 
+            Log.e("TAG", "Start...") // TODO
+            delay(5000)
             val response = userRemoteDataSource.getUsers()
             val users = mutableListOf<User>()
 
@@ -29,6 +33,7 @@ class UserRepository @Inject constructor(
             localUsers.forEach {
                 localUsersList.add(User(it.id, it.name, it.email, it.avatar))
             }
+            Log.e("TAG", "End") // TODO
             Resource.Success(localUsersList)
 
         } catch (exception: Exception) {
