@@ -37,7 +37,7 @@ class UserRepository @Inject constructor(
             Resource.Success(localUsersList)
 
         } catch (exception: Exception) {
-            Resource.Error("Error: ${exception.message}")
+            Resource.Error(exception.message.toString())
         }
     }
 
