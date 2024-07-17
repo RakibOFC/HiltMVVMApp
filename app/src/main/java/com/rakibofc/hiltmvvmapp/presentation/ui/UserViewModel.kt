@@ -25,7 +25,6 @@ class UserViewModel @Inject constructor(
 
     private fun fetchUsers() {
         viewModelScope.launch {
-            _users.postValue(Resource.Loading())
             _users.postValue(userRepository.getUsers())
         }
     }
