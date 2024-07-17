@@ -18,15 +18,16 @@ class UserRepository @Inject constructor(
 
             val response = userRemoteDataSource.getUsers()
             val users = mutableListOf<User>()
-            response.data.childrenInfo.forEach {
-                users.add(User(it.id, it.name, it.studentGender))
+
+            response.data.forEach {
+                users.add(User(it.id, "${it.firstName} ${it.lastName}", it.email, it.avatar))
             }
             userDao.insertAll(users.map { it.toEntity() })
 
             val localUsers = userDao.getAllUsers()
             val localUsersList = mutableListOf<User>()
             localUsers.forEach {
-                localUsersList.add(User(it.id, it.name, it.gender))
+                localUsersList.add(User(it.id, it.name, it.email, it.avatar))
             }
 
             Resource.Success(localUsersList)
@@ -37,6 +38,6 @@ class UserRepository @Inject constructor(
     }
 
     private fun User.toEntity(): UserEntity {
-        return UserEntity(id, name, gender)
+        return UserEntity(id, name, email, avatar)
     }
 }
