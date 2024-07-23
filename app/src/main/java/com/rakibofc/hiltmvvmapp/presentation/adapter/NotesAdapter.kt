@@ -2,19 +2,19 @@ package com.rakibofc.hiltmvvmapp.presentation.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.rakibofc.hiltmvvmapp.databinding.ItemContainerContactBinding
+import com.rakibofc.hiltmvvmapp.databinding.ItemContainerNoteBinding
 import com.rakibofc.hiltmvvmapp.domain.model.Contact
+import com.rakibofc.hiltmvvmapp.domain.model.Note
 
-class ContactsAdapter(
+class NotesAdapter(
     private val context: Context,
-    val contactList: List<Contact>
-) : RecyclerView.Adapter<ContactsAdapter.ViewHolder>() {
+    val noteList: List<Note>
+) : RecyclerView.Adapter<NotesAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int, contact: Contact)
+        fun onItemClick(position: Int, note: Note)
     }
 
     private var onItemClickListener: OnItemClickListener? = null
@@ -24,35 +24,34 @@ class ContactsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
         val inflater = LayoutInflater.from(context)
-        val binding = ItemContainerContactBinding.inflate(inflater, parent, false)
+        val binding = ItemContainerNoteBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
-        return contactList.size
+        return noteList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(position)
     }
 
-    inner class ViewHolder(binding: ItemContainerContactBinding) :
+    inner class ViewHolder(binding: ItemContainerNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val tvName = binding.tvName
-        private val tvPhone = binding.tvPhone
+        private val tvNoteTitle = binding.tvNoteTitle
+        private val tvNoteText = binding.tvNoteText
 
         fun bind(position: Int) {
 
-            val contact = contactList[position]
+            val note = noteList[position]
 
-            tvName.text = contact.name
-            tvPhone.text = contact.contactNo
+            tvNoteTitle.text = note.noteTitle
+            tvNoteText.text = note.noteText
 
             itemView.setOnClickListener {
-                onItemClickListener?.onItemClick(position, contact)
+                onItemClickListener?.onItemClick(position, note)
             }
         }
     }

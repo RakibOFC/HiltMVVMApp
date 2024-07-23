@@ -13,7 +13,7 @@ import com.rakibofc.hiltmvvmapp.presentation.viewmodel.ContactListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ContactListActivity : AppCompatActivity() {
+class ContactListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickListener {
 
     private val viewModel: ContactListViewModel by viewModels()
     private lateinit var binding: ActivityContactListBinding
@@ -46,7 +46,11 @@ class ContactListActivity : AppCompatActivity() {
                     contactList?.let {
 
                         if (it.isNotEmpty()) {
-                            rvContacts.adapter = ContactsAdapter(applicationContext, it)
+
+                            val contactsAdapter = ContactsAdapter(applicationContext, it)
+                            contactsAdapter.setOnItemClickListener(this@ContactListActivity)
+                            rvContacts.adapter = contactsAdapter
+
                             llcPbStatus.visibility = View.GONE
                             rvContacts.visibility = View.VISIBLE
                         } else {
@@ -70,5 +74,10 @@ class ContactListActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onItemClick(position: Int, contact: Contact) {
+
+
     }
 }

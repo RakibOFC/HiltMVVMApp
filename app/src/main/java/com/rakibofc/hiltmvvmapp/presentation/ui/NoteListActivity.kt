@@ -2,19 +2,16 @@ package com.rakibofc.hiltmvvmapp.presentation.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.rakibofc.hiltmvvmapp.R
 import com.rakibofc.hiltmvvmapp.databinding.ActivityNoteListBinding
 import com.rakibofc.hiltmvvmapp.domain.model.Note
-import com.rakibofc.hiltmvvmapp.presentation.adapter.ContactsAdapter
+import com.rakibofc.hiltmvvmapp.presentation.adapter.NotesAdapter
 import com.rakibofc.hiltmvvmapp.presentation.util.Resource
 import com.rakibofc.hiltmvvmapp.presentation.viewmodel.NoteListViewModel
 
-class NoteListActivity : AppCompatActivity() {
+class NoteListActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
 
     private val viewModel: NoteListViewModel by viewModels()
     private lateinit var binding: ActivityNoteListBinding
@@ -47,7 +44,11 @@ class NoteListActivity : AppCompatActivity() {
                     noteList?.let {
 
                         if (it.isNotEmpty()) {
-                            rvNotes.adapter = NotesAdapter(applicationContext, it)
+
+                            val notesAdapter = NotesAdapter(applicationContext, it)
+                            notesAdapter.setOnItemClickListener(this@NoteListActivity)
+                            rvNotes.adapter = notesAdapter
+
                             llcPbStatus.visibility = View.GONE
                             rvNotes.visibility = View.VISIBLE
                         } else {
@@ -71,5 +72,10 @@ class NoteListActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onItemClick(position: Int, note: Note) {
+
+
     }
 }
