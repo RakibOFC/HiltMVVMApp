@@ -5,7 +5,11 @@ import androidx.room.Room
 import com.rakibofc.hiltmvvmapp.data.contact.ContactDao
 import com.rakibofc.hiltmvvmapp.data.contact.ContactDatabase
 import com.rakibofc.hiltmvvmapp.data.contact.ContactRepository
+import com.rakibofc.hiltmvvmapp.data.note.NoteDao
+import com.rakibofc.hiltmvvmapp.data.note.NoteDatabase
+import com.rakibofc.hiltmvvmapp.data.note.NoteRepository
 import com.rakibofc.hiltmvvmapp.domain.usecase.ContactUseCase
+import com.rakibofc.hiltmvvmapp.domain.usecase.NoteUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +24,21 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext mContext: Context): ContactDatabase {
-        return Room.databaseBuilder(mContext, ContactDatabase::class.java, "contact_db").build()
+        return Room.databaseBuilder(
+            mContext,
+            ContactDatabase::class.java,
+            "contact_db"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNoteDatabase(@ApplicationContext mContext: Context): NoteDatabase {
+        return Room.databaseBuilder(
+            mContext,
+            NoteDatabase::class.java,
+            "note_db"
+        ).build()
     }
 
     @Provides
@@ -31,7 +49,19 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideNoteDao(mDatabase: NoteDatabase): NoteDao {
+        return mDatabase.noteDao()
+    }
+
+    @Provides
+    @Singleton
     fun provideContactRepository(contactDao: ContactDao): ContactUseCase {
         return ContactRepository(contactDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNoteRepository(noteDao: NoteDao): NoteUseCase {
+        return NoteRepository(noteDao)
     }
 }

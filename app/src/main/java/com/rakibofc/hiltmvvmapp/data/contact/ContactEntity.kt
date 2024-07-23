@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "contacts")
 data class ContactEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Long,
     @ColumnInfo(name = "name") val name: String,
     @ColumnInfo(name = "contact_no") val contactNo: String,
     @ColumnInfo(name = "created_at") val createdAt: Long,
@@ -20,11 +20,11 @@ data class ContactEntity(
         updatedAt = System.currentTimeMillis()
     )
 
-    constructor(name: String, contactNo: String, updatedAt: Long) : this(
+    constructor(name: String, contactNo: String, createdAt: Long) : this(
         id = 0,
         name = name,
         contactNo = contactNo,
-        updatedAt = updatedAt,
-        createdAt = System.currentTimeMillis()
+        createdAt = createdAt,
+        updatedAt = System.currentTimeMillis()
     )
 }

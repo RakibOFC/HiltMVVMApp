@@ -5,7 +5,6 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.rakibofc.hiltmvvmapp.R
-import com.rakibofc.hiltmvvmapp.data.contact.ContactEntity
 import com.rakibofc.hiltmvvmapp.databinding.ActivityContactListBinding
 import com.rakibofc.hiltmvvmapp.domain.model.Contact
 import com.rakibofc.hiltmvvmapp.presentation.adapter.ContactsAdapter
