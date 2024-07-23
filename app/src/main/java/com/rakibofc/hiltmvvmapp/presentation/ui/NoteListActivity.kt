@@ -2,55 +2,56 @@ package com.rakibofc.hiltmvvmapp.presentation.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import com.rakibofc.hiltmvvmapp.R
-import com.rakibofc.hiltmvvmapp.databinding.ActivityContactListBinding
-import com.rakibofc.hiltmvvmapp.domain.model.Contact
+import com.rakibofc.hiltmvvmapp.databinding.ActivityNoteListBinding
+import com.rakibofc.hiltmvvmapp.domain.model.Note
 import com.rakibofc.hiltmvvmapp.presentation.adapter.ContactsAdapter
 import com.rakibofc.hiltmvvmapp.presentation.util.Resource
-import com.rakibofc.hiltmvvmapp.presentation.viewmodel.ContactListViewModel
-import dagger.hilt.android.AndroidEntryPoint
+import com.rakibofc.hiltmvvmapp.presentation.viewmodel.NoteListViewModel
 
-@AndroidEntryPoint
-class ContactListActivity : AppCompatActivity() {
+class NoteListActivity : AppCompatActivity() {
 
-    private val viewModel: ContactListViewModel by viewModels()
-    private lateinit var binding: ActivityContactListBinding
+    private val viewModel: NoteListViewModel by viewModels()
+    private lateinit var binding: ActivityNoteListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityContactListBinding.inflate(layoutInflater)
+        binding = ActivityNoteListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.contacts.observe(this) {
-            handleContactData(it)
+        viewModel.notes.observe(this) {
+            handleNoteData(it)
         }
     }
 
-    private fun handleContactData(resource: Resource<List<Contact>>?) {
+    private fun handleNoteData(resource: Resource<List<Note>>?) {
 
         with(binding) {
 
             when (resource) {
 
                 is Resource.Loading -> {
-                    rvContacts.visibility = View.GONE
+                    rvNotes.visibility = View.GONE
                     progressBar.visibility = View.VISIBLE
                 }
 
                 is Resource.Success -> {
 
-                    val contactList = resource.data
-                    contactList?.let {
+                    val noteList = resource.data
+                    noteList?.let {
 
                         if (it.isNotEmpty()) {
-                            rvContacts.adapter = ContactsAdapter(applicationContext, it)
+                            rvNotes.adapter = NotesAdapter(applicationContext, it)
                             llcPbStatus.visibility = View.GONE
-                            rvContacts.visibility = View.VISIBLE
+                            rvNotes.visibility = View.VISIBLE
                         } else {
-                            rvContacts.visibility = View.GONE
+                            rvNotes.visibility = View.GONE
                             progressBar.visibility = View.GONE
                             tvStatusMsg.text = getString(R.string.no_contact_msg)
                         }
@@ -58,13 +59,13 @@ class ContactListActivity : AppCompatActivity() {
                 }
 
                 is Resource.Error -> {
-                    rvContacts.visibility = View.GONE
+                    rvNotes.visibility = View.GONE
                     progressBar.visibility = View.GONE
                     tvStatusMsg.text = resource.message
                 }
 
                 null -> {
-                    rvContacts.visibility = View.GONE
+                    rvNotes.visibility = View.GONE
                     progressBar.visibility = View.GONE
                     tvStatusMsg.text = getString(R.string.no_data_msg)
                 }
