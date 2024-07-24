@@ -28,6 +28,10 @@ class ContactListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickList
         viewModel.contacts.observe(this) {
             handleContactData(it)
         }
+
+        binding.fabAdd.setOnClickListener {
+            startActivity(Intent(applicationContext, UpsertContactActivity::class.java))
+        }
     }
 
     private fun handleContactData(resource: Resource<List<Contact>>?) {
@@ -81,6 +85,7 @@ class ContactListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickList
 
         val intent = Intent(applicationContext, UpsertContactActivity::class.java)
             .apply {
+                putExtra(Contact.CONTACT_ID_KEY, contact.id)
                 putExtra(Contact.NAME_KEY, contact.name)
                 putExtra(Contact.PHONE_KEY, contact.contactNo)
                 putExtra(Contact.CREATED_AT_KEY, contact.createdAt)

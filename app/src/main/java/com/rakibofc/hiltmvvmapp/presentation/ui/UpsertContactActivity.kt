@@ -12,8 +12,10 @@ import com.rakibofc.hiltmvvmapp.data.contact.ContactEntity
 import com.rakibofc.hiltmvvmapp.databinding.ActivityUpsertContactBinding
 import com.rakibofc.hiltmvvmapp.domain.model.Contact
 import com.rakibofc.hiltmvvmapp.presentation.viewmodel.ContactViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class UpsertContactActivity : AppCompatActivity() {
 
     private val viewModel: ContactViewModel by viewModels()
@@ -25,6 +27,7 @@ class UpsertContactActivity : AppCompatActivity() {
         binding = ActivityUpsertContactBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val id = intent.getLongExtra(Contact.CONTACT_ID_KEY, 0L)
         val name = intent.getStringExtra(Contact.NAME_KEY)
         val phone = intent.getStringExtra(Contact.PHONE_KEY)
         val createdAt = intent.getLongExtra(Contact.CREATED_AT_KEY, 0L)
@@ -34,12 +37,12 @@ class UpsertContactActivity : AppCompatActivity() {
             etPhone.setText(phone)
 
             btnSave.setOnClickListener {
-                saveContact(createdAt)
+                saveContact(id, createdAt)
             }
         }
     }
 
-    private fun saveContact(createdAt: Long) {
+    private fun saveContact(id: Long, createdAt: Long) {
 
         val name = binding.etName.text.toString().trim()
         val phone = binding.etPhone.text.toString().trim()
@@ -58,7 +61,7 @@ class UpsertContactActivity : AppCompatActivity() {
             if (createdAt == 0L)
                 viewModel.upsertContact(ContactEntity(name, phone))
             else
-                viewModel.upsertContact(ContactEntity(name, phone, createdAt))
+                viewModel.upsertContact(ContactEntity(id, name, phone, createdAt))
         }
     }
 

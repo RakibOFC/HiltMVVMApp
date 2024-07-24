@@ -11,7 +11,9 @@ import com.rakibofc.hiltmvvmapp.domain.model.Note
 import com.rakibofc.hiltmvvmapp.presentation.adapter.NotesAdapter
 import com.rakibofc.hiltmvvmapp.presentation.util.Resource
 import com.rakibofc.hiltmvvmapp.presentation.viewmodel.NoteViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NoteListActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
 
     private val viewModel: NoteViewModel by viewModels()
@@ -25,6 +27,10 @@ class NoteListActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
 
         viewModel.notes.observe(this) {
             handleNoteData(it)
+        }
+
+        binding.fabAdd.setOnClickListener {
+            startActivity(Intent(applicationContext, UpsertNoteActivity::class.java))
         }
     }
 
@@ -55,7 +61,7 @@ class NoteListActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
                         } else {
                             rvNotes.visibility = View.GONE
                             progressBar.visibility = View.GONE
-                            tvStatusMsg.text = getString(R.string.no_contact_msg)
+                            tvStatusMsg.text = getString(R.string.no_note_msg)
                         }
                     }
                 }
@@ -79,6 +85,7 @@ class NoteListActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
 
         val intent = Intent(applicationContext, UpsertNoteActivity::class.java)
             .apply {
+                putExtra(Note.NOTE_ID_KEY, note.id)
                 putExtra(Note.NOTE_TITLE_KEY, note.noteTitle)
                 putExtra(Note.NOTE_TEXT_KEY, note.noteText)
                 putExtra(Note.CREATED_AT_KEY, note.createdAt)

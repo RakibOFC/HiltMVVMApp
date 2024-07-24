@@ -2,23 +2,20 @@ package com.rakibofc.hiltmvvmapp.presentation.ui
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.textfield.TextInputEditText
 import com.rakibofc.hiltmvvmapp.R
-import com.rakibofc.hiltmvvmapp.data.contact.ContactEntity
 import com.rakibofc.hiltmvvmapp.data.note.NoteEntity
 import com.rakibofc.hiltmvvmapp.databinding.ActivityUpsertNoteBinding
-import com.rakibofc.hiltmvvmapp.domain.model.Contact
 import com.rakibofc.hiltmvvmapp.domain.model.Note
 import com.rakibofc.hiltmvvmapp.presentation.viewmodel.NoteViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class UpsertNoteActivity : AppCompatActivity() {
 
     private val viewModel: NoteViewModel by viewModels()
@@ -30,6 +27,7 @@ class UpsertNoteActivity : AppCompatActivity() {
         binding = ActivityUpsertNoteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val noteId = intent.getLongExtra(Note.NOTE_ID_KEY, 0L)
         val noteTitle = intent.getStringExtra(Note.NOTE_TITLE_KEY)
         val noteText = intent.getStringExtra(Note.NOTE_TEXT_KEY)
         val createdAt = intent.getLongExtra(Note.CREATED_AT_KEY, 0L)
@@ -39,12 +37,12 @@ class UpsertNoteActivity : AppCompatActivity() {
             etNoteText.setText(noteText)
 
             btnSave.setOnClickListener {
-                saveNote(createdAt)
+                saveNote(noteId, createdAt)
             }
         }
     }
 
-    private fun saveNote(createdAt: Long) {
+    private fun saveNote(noteId: Long, createdAt: Long) {
 
         val noteTitle = binding.etNoteTitle.text.toString().trim()
         val noteText = binding.etNoteText.text.toString().trim()
@@ -63,7 +61,7 @@ class UpsertNoteActivity : AppCompatActivity() {
             if (createdAt == 0L)
                 viewModel.upsertNote(NoteEntity(noteTitle, noteText))
             else
-                viewModel.upsertNote(NoteEntity(noteTitle, noteText, createdAt))
+                viewModel.upsertNote(NoteEntity(noteId, noteTitle, noteText, createdAt))
         }
     }
 

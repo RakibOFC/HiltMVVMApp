@@ -8,9 +8,11 @@ import com.rakibofc.hiltmvvmapp.data.note.NoteEntity
 import com.rakibofc.hiltmvvmapp.data.note.NoteRepository
 import com.rakibofc.hiltmvvmapp.domain.model.Note
 import com.rakibofc.hiltmvvmapp.presentation.util.Resource
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class NoteViewModel @Inject constructor(
     private val noteRepository: NoteRepository
 ) : ViewModel() {
@@ -22,7 +24,7 @@ class NoteViewModel @Inject constructor(
         fetchNotes()
     }
 
-    fun upsertNote(noteEntity: NoteEntity) {
+    suspend fun upsertNote(noteEntity: NoteEntity) {
         viewModelScope.launch {
             noteRepository.upsertNote(noteEntity)
         }

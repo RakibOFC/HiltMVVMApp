@@ -21,8 +21,8 @@ data class NoteEntity(
         updatedAt = System.currentTimeMillis()
     )
 
-    constructor(noteTitle: String, noteText: String, createdAt: Long) : this(
-        id = 0,
+    constructor(noteId: Long, noteTitle: String, noteText: String, createdAt: Long) : this(
+        id = noteId,
         noteTitle = noteTitle,
         noteText = noteText,
         createdAt = createdAt,

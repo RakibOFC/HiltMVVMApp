@@ -2,10 +2,12 @@
     <string name="app_name">HiltMVVMApp</string>
     <string name="loading_text">Loading…</string>
     <string name="no_contact_msg">No contact found!</string>
+    <string name="no_note_msg">No note found!</string>
     <string name="no_data_msg">No data found!</string>
     <string name="name_text">Name</string>
     <string name="phone_text">Phone</string>
     <string name="save_text">Save</string>
     <string name="note_text">Enter note…</string>
     <string name="title_text">Title</string>
+    <string name="add_text">Add</string>
 </resources>

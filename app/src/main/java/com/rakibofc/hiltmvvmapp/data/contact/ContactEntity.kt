@@ -20,8 +20,8 @@ data class ContactEntity(
         updatedAt = System.currentTimeMillis()
     )
 
-    constructor(name: String, contactNo: String, createdAt: Long) : this(
-        id = 0,
+    constructor(id: Long, name: String, contactNo: String, createdAt: Long) : this(
+        id = id,
         name = name,
         contactNo = contactNo,
         createdAt = createdAt,
