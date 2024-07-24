@@ -22,6 +22,6 @@ class ContactRepository @Inject constructor(
     }
 
     private fun ContactEntity.toContact(): Contact {
-        return Contact(id = id, name = name, contactNo = contactNo)
+        return Contact(id = id, name = name, contactNo = contactNo, createdAt = createdAt)
     }
 }

@@ -27,7 +27,7 @@ class UpsertContactActivity : AppCompatActivity() {
 
         val name = intent.getStringExtra(Contact.NAME_KEY)
         val phone = intent.getStringExtra(Contact.PHONE_KEY)
-        val createdAt = intent.getLongExtra(Contact.CREATED_AT_KEY, 0)
+        val createdAt = intent.getLongExtra(Contact.CREATED_AT_KEY, 0L)
 
         with(binding) {
             etName.setText(name)

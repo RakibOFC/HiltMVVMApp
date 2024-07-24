@@ -3,7 +3,8 @@ package com.rakibofc.hiltmvvmapp.domain.model
 data class Contact(
     val id: Long,
     val name: String,
-    val contactNo: String
+    val contactNo: String,
+    val createdAt: Long
 ) {
     companion object {
         const val NAME_KEY = "name"

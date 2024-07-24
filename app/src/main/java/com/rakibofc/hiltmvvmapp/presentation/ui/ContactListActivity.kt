@@ -1,5 +1,6 @@
 package com.rakibofc.hiltmvvmapp.presentation.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -78,6 +79,12 @@ class ContactListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickList
 
     override fun onItemClick(position: Int, contact: Contact) {
 
-
+        val intent = Intent(applicationContext, UpsertContactActivity::class.java)
+            .apply {
+                putExtra(Contact.NAME_KEY, contact.name)
+                putExtra(Contact.PHONE_KEY, contact.contactNo)
+                putExtra(Contact.CREATED_AT_KEY, contact.createdAt)
+            }
+        startActivity(intent)
     }
 }
