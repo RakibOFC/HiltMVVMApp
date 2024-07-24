@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.rakibofc.hiltmvvmapp.data.note.NoteEntity
-import com.rakibofc.hiltmvvmapp.data.note.NoteRepository
 import com.rakibofc.hiltmvvmapp.domain.model.Note
+import com.rakibofc.hiltmvvmapp.domain.usecase.NoteUseCase
 import com.rakibofc.hiltmvvmapp.presentation.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NoteViewModel @Inject constructor(
-    private val noteRepository: NoteRepository
+    private val noteUseCase: NoteUseCase
 ) : ViewModel() {
 
     private val _notes = MutableLiveData<Resource<List<Note>>>()
@@ -26,13 +26,13 @@ class NoteViewModel @Inject constructor(
 
     suspend fun upsertNote(noteEntity: NoteEntity) {
         viewModelScope.launch {
-            noteRepository.upsertNote(noteEntity)
+            noteUseCase.upsertNote(noteEntity)
         }
     }
 
     private fun fetchNotes() {
         viewModelScope.launch {
-            _notes.postValue(noteRepository.getNoteList())
+            _notes.postValue(noteUseCase.getNoteList())
         }
     }
 }
