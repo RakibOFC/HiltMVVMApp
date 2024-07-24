@@ -1,5 +1,6 @@
 package com.rakibofc.hiltmvvmapp.presentation.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.activity.viewModels
@@ -9,11 +10,11 @@ import com.rakibofc.hiltmvvmapp.databinding.ActivityNoteListBinding
 import com.rakibofc.hiltmvvmapp.domain.model.Note
 import com.rakibofc.hiltmvvmapp.presentation.adapter.NotesAdapter
 import com.rakibofc.hiltmvvmapp.presentation.util.Resource
-import com.rakibofc.hiltmvvmapp.presentation.viewmodel.NoteListViewModel
+import com.rakibofc.hiltmvvmapp.presentation.viewmodel.NoteViewModel
 
 class NoteListActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
 
-    private val viewModel: NoteListViewModel by viewModels()
+    private val viewModel: NoteViewModel by viewModels()
     private lateinit var binding: ActivityNoteListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -76,6 +77,12 @@ class NoteListActivity : AppCompatActivity(), NotesAdapter.OnItemClickListener {
 
     override fun onItemClick(position: Int, note: Note) {
 
-
+        val intent = Intent(applicationContext, UpsertNoteActivity::class.java)
+            .apply {
+                putExtra(Note.NOTE_TITLE_KEY, note.noteTitle)
+                putExtra(Note.NOTE_TEXT_KEY, note.noteText)
+                putExtra(Note.CREATED_AT_KEY, note.createdAt)
+            }
+        startActivity(intent)
     }
 }

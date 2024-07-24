@@ -11,7 +11,7 @@ import com.rakibofc.hiltmvvmapp.presentation.util.Resource
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class NoteListViewModel @Inject constructor(
+class NoteViewModel @Inject constructor(
     private val noteRepository: NoteRepository
 ) : ViewModel() {
 

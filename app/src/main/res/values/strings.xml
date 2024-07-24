@@ -6,4 +6,6 @@
     <string name="name_text">Name</string>
     <string name="phone_text">Phone</string>
     <string name="save_text">Save</string>
+    <string name="note_text">Enter note…</string>
+    <string name="title_text">Title</string>
 </resources>

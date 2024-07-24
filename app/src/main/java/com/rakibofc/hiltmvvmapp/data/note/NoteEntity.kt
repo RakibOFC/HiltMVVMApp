@@ -30,6 +30,6 @@ data class NoteEntity(
     )
 
     fun toNote(): Note {
-        return Note(id, noteTitle, noteText)
+        return Note(id = id, noteTitle = noteTitle, noteText = noteText, createdAt = createdAt)
     }
 }

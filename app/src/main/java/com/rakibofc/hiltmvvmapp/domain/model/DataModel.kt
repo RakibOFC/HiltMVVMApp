@@ -16,5 +16,12 @@ data class Contact(
 data class Note(
     val id: Long,
     val noteTitle: String,
-    val noteText: String
-)
+    val noteText: String,
+    val createdAt: Long
+) {
+    companion object {
+        const val NOTE_TITLE_KEY = "noteTitle"
+        const val NOTE_TEXT_KEY = "noteText"
+        const val CREATED_AT_KEY = "createdAt"
+    }
+}
