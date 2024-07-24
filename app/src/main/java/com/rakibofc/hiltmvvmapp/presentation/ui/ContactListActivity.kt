@@ -9,13 +9,13 @@ import com.rakibofc.hiltmvvmapp.databinding.ActivityContactListBinding
 import com.rakibofc.hiltmvvmapp.domain.model.Contact
 import com.rakibofc.hiltmvvmapp.presentation.adapter.ContactsAdapter
 import com.rakibofc.hiltmvvmapp.presentation.util.Resource
-import com.rakibofc.hiltmvvmapp.presentation.viewmodel.ContactListViewModel
+import com.rakibofc.hiltmvvmapp.presentation.viewmodel.ContactViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ContactListActivity : AppCompatActivity(), ContactsAdapter.OnItemClickListener {
 
-    private val viewModel: ContactListViewModel by viewModels()
+    private val viewModel: ContactViewModel by viewModels()
     private lateinit var binding: ActivityContactListBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -21,6 +21,32 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+    /**
+     * @since
+     * 1. What is the difference between sealed class and normal class?
+     * 2. What is the difference between sealed class and interface?
+     * 3. I have multiple repository which is the best practice for AppModule.
+     * Is it best practice to place all repository in same AppModule?
+    ```
+    sealed class Resource<T>(
+    val data: T? = null,
+    val message: String? = null
+    ) {
+    class Success<T>(data: T) : Resource<T>(data)
+    class Error<T>(message: String, data: T? = null) : Resource<T>(data, message)
+    class Loading<T> : Resource<T>()
+    }
+
+    class Resources(
+    val data: String? = null,
+    val message: String? = null
+    ) {
+    class   Success
+    class Error
+    }
+    ```
+     */
+
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext mContext: Context): ContactDatabase {

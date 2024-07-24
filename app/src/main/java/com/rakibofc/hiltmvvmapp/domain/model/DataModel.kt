@@ -4,7 +4,13 @@ data class Contact(
     val id: Long,
     val name: String,
     val contactNo: String
-)
+) {
+    companion object {
+        const val NAME_KEY = "name"
+        const val PHONE_KEY = "phone"
+        const val CREATED_AT_KEY = "createdAt"
+    }
+}
 
 data class Note(
     val id: Long,

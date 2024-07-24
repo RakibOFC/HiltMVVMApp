@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ContactListViewModel @Inject constructor(
+class ContactViewModel @Inject constructor(
     private val contactRepository: ContactRepository
 ) : ViewModel() {
 
@@ -24,7 +24,7 @@ class ContactListViewModel @Inject constructor(
         fetchContacts()
     }
 
-    fun upsertContact(contact: ContactEntity) {
+    suspend fun upsertContact(contact: ContactEntity) {
         viewModelScope.launch {
             contactRepository.upsertContact(contact)
         }

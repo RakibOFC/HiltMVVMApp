@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CustomButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">@dimen/_4sdp</item>
+        <item name="android:padding">@dimen/_10sdp</item>
+    </style>
+
+</resources>
